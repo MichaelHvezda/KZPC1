@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Emgu.CV" Version="4.5.3.4721" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.5.3.4721" />
     <PackageReference Include="EmguCV" Version="3.1.0.1" />
     <PackageReference Include="FFmpeg.AutoGen" Version="4.4.0" />
     <PackageReference Include="ImageSharp.AVCodecFormats" Version="2.2.1" />

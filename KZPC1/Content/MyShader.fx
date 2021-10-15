@@ -1,12 +1,12 @@
 ﻿texture MainTexture;
 texture BackGround;
 texture MeansTexture;
-float width;
-float height;
+float Width;
+float Height;
 
-float3 cent1;
-float3 cent2;
-float3 cent3;
+float3 Cent1;
+float3 Cent2;
+float3 Cent3;
 
 sampler textureSampler = sampler_state
 {
@@ -158,9 +158,9 @@ PixelShaderOutput PixelShaderFunction1(VertexShaderOutput input)
 
 	float3 hsb = RgbToHsb(a.xyz);
 
-	float3 cent1hsb = RgbToHsb(cent1);
-	float3 cent2hsb = RgbToHsb(cent2);
-	float3 cent3hsb = RgbToHsb(cent3);
+	float3 cent1hsb = RgbToHsb(Cent1);
+	float3 cent2hsb = RgbToHsb(Cent2);
+	float3 cent3hsb = RgbToHsb(Cent3);
 
 	float jedna = Vzdalenost(hsb, cent1hsb);
 	float dva = Vzdalenost(hsb, cent2hsb);
@@ -174,7 +174,8 @@ PixelShaderOutput PixelShaderFunction1(VertexShaderOutput input)
 	}
 	else {
 		//output.C1 = float4(1, 0, 1, 0);
-		output.C1 = float4(a.x, a.y, a.z, 0);
+		//output.C1 = float4(a.x, a.y, a.z, 0);
+		output.C1 = float4(0, 0, 0, 0);
 	}
 
 	if (dva == smal) {
@@ -182,7 +183,8 @@ PixelShaderOutput PixelShaderFunction1(VertexShaderOutput input)
 	}
 	else {
 		//output.C2 = float4(1, 0, 1, 0);
-		output.C2 = float4(a.x, a.y, a.z, 0);
+		//output.C2 = float4(a.x, a.y, a.z, 0);
+		output.C2 = float4(0, 0, 0, 0);
 	}
 
 	if (tri == smal) {
@@ -190,7 +192,8 @@ PixelShaderOutput PixelShaderFunction1(VertexShaderOutput input)
 	}
 	else {
 		//output.C3 = float4(1,0,1, 0);
-		output.C3 = float4(a.x, a.y, a.z, 0);
+		//output.C3 = float4(a.x, a.y, a.z, 0);
+		output.C3 = float4(0, 0, 0, 0);
 	}
 
 	return output;
@@ -208,77 +211,110 @@ float4 PixelShaderFunction2(VertexShaderOutput input) : COLOR0
 
 float4 PixelShaderFunction3(VertexShaderOutput input) : COLOR0
 {
+	//float x = input.TextureCoordinate.x;
+	//float y = input.TextureCoordinate.y;
+
+	//float x1 = (1 / Width/2);
+	//float y1 = (1 / Height/2);
+
+	//float xp = (x + x1) > 1 ? 1 - x1 : x + x1;
+	//float yp = (y + y1) > 1 ? 1 - y1 : y + y1;;
+	//float xm = (x - x1) < 0 ? x1 : x - x1;;
+	//float ym = (y - y1) < 0 ? y1 : y - y1;;
+
+	//int count = 0;
+	//float4 b = float4(0,0,0,0);
+	///*if (Width<=2 && Height <= 2)
+	//{
+	//	if (tex2D(textureSampler, float2(0.25, 0.25)).w == 1) {
+	//		b += tex2D(textureSampler, float2(0.25, 0.25));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(0.75, 0.25)).w == 1) {
+	//		b += tex2D(textureSampler, float2(0.5, 0.5));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(0.75, 0.75)).w == 1) {
+	//		b += tex2D(textureSampler, float2(0.75, 0.75));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(0.25, 0.75)).w == 1) {
+	//		b += tex2D(textureSampler, float2(0.25, 0.75));
+	//		count++;
+	//	}
+	//}
+	//else
+	//{*/
+	//	if (tex2D(textureSampler, float2(xp, yp)).w == 1) {
+	//		b += tex2D(textureSampler, float2(xp, yp));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(xm, yp)).w == 1) {
+	//		b += tex2D(textureSampler, float2(xm, yp));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(xp, ym)).w == 1) {
+	//		b += tex2D(textureSampler, float2(xp, ym));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(xm, ym)).w == 1) {
+	//		b += tex2D(textureSampler, float2(xm, ym));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(x, y)).w == 1) {
+	//		b += tex2D(textureSampler, float2(x, y));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(xp, y)).w == 1) {
+	//		b += tex2D(textureSampler, float2(xp, y));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(xm, y)).w == 1) {
+	//		b += tex2D(textureSampler, float2(xm, y));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(x, ym)).w == 1) {
+	//		b += tex2D(textureSampler, float2(x, ym));
+	//		count++;
+	//	}
+	//	if (tex2D(textureSampler, float2(x, ym)).w == 1) {
+	//		b += tex2D(textureSampler, float2(x, ym));
+	//		count++;
+	//	}
+	//}
+
+
 	float x = input.TextureCoordinate.x;
 	float y = input.TextureCoordinate.y;
+	float xp = input.Position.x;
+	float yp = input.Position.y;
 
-	float x1 = (1 / width/2);
-	float y1 = (1 / height/2);
+	float xhm = x / 2.0;
+	float yhm = y / 2.0;
 
-	float xp = (x + x1) > 1 ? 1 - x1 : x + x1;
-	float yp = (y + y1) > 1 ? 1 - y1 : y + y1;;
-	float xm = (x - x1) < 0 ? x1 : x - x1;;
-	float ym = (y - y1) < 0 ? y1 : y - y1;;
-
+	float xhh = xhm * 3.0;
+	float yhh = yhm * 3.0;
 	int count = 0;
-	float4 b = float4(0,0,0,0);
-	/*if (width<=2 && height <= 2)
-	{
-		if (tex2D(textureSampler, float2(0.25, 0.25)).w == 1) {
-			b += tex2D(textureSampler, float2(0.25, 0.25));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(0.75, 0.25)).w == 1) {
-			b += tex2D(textureSampler, float2(0.5, 0.5));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(0.75, 0.75)).w == 1) {
-			b += tex2D(textureSampler, float2(0.75, 0.75));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(0.25, 0.75)).w == 1) {
-			b += tex2D(textureSampler, float2(0.25, 0.75));
-			count++;
-		}
+	float4 b = float4(0, 0, 0, 0);
+
+	//return float4(x, y, xhm, yhm);
+
+	if (tex2D(textureSampler, float2(xhm, yhh)).w == 1) {
+		b += tex2D(textureSampler, float2(xhm, yhh));
+		count++;
 	}
-	else
-	{*/
-		if (tex2D(textureSampler, float2(xp, yp)).w == 1) {
-			b += tex2D(textureSampler, float2(xp, yp));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(xm, yp)).w == 1) {
-			b += tex2D(textureSampler, float2(xm, yp));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(xp, ym)).w == 1) {
-			b += tex2D(textureSampler, float2(xp, ym));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(xm, ym)).w == 1) {
-			b += tex2D(textureSampler, float2(xm, ym));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(x, y)).w == 1) {
-			b += tex2D(textureSampler, float2(x, y));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(xp, y)).w == 1) {
-			b += tex2D(textureSampler, float2(xp, y));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(xm, y)).w == 1) {
-			b += tex2D(textureSampler, float2(xm, y));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(x, ym)).w == 1) {
-			b += tex2D(textureSampler, float2(x, ym));
-			count++;
-		}
-		if (tex2D(textureSampler, float2(x, ym)).w == 1) {
-			b += tex2D(textureSampler, float2(x, ym));
-			count++;
-		}
-	//}
+	if (tex2D(textureSampler, float2(xhm, yhm)).w == 1) {
+		b += tex2D(textureSampler, float2(xhm, yhm));
+		count++;
+	}
+	if (tex2D(textureSampler, float2(xhh, yhm)).w == 1) {
+		b += tex2D(textureSampler, float2(xhh, yhm));
+		count++;
+	}
+	if (tex2D(textureSampler, float2(xhh, yhh)).w == 1) {
+		b += tex2D(textureSampler, float2(xhh, yhh));
+		count++;
+	}
 
 
 	if (count != 0) {
@@ -287,6 +323,8 @@ float4 PixelShaderFunction3(VertexShaderOutput input) : COLOR0
 	else {
 		return b;
 	}
+
+	//return float4(count/4.0, count / 8.0, count / 12.0, 1);
 }
 
 float4 PixelShaderFunction4(VertexShaderOutput input) : COLOR0

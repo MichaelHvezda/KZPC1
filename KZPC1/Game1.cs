@@ -24,20 +24,20 @@ namespace KZPC1
 {
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        KeyboardState state;
-        KeyboardState previousState;
-        Microsoft.Xna.Framework.Rectangle windowSize = new Microsoft.Xna.Framework.Rectangle(0, 0, 800, 480);
-        public List<RenderTarget2D> listTargets = new List<RenderTarget2D>();
-        Computers.ImageComputer imageComputer;
-        Computers.VideoComputer videoComputer;
+        GraphicsDeviceManager Graphics;
+        SpriteBatch SpriteBatch;
+        KeyboardState State;
+        KeyboardState PreviousState;
         bool play = false;
+        Microsoft.Xna.Framework.Rectangle WindowSize = new Microsoft.Xna.Framework.Rectangle(0, 0, 800, 480);
+        Computers.ImageComputer ImageComputer;
+        Computers.VideoComputer VideoComputer;
+        Computers.Computer Computer;
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.GraphicsProfile = GraphicsProfile.HiDef;
-            graphics.ApplyChanges();
+            Graphics = new GraphicsDeviceManager(this);
+            Graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            Graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
@@ -50,14 +50,17 @@ namespace KZPC1
             var setup = new Setup();
             setup.SetupAll();
             //setup.DelAllPic();
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            videoComputer = new Computers.VideoComputer(new VideoCapture(Setup.GetContentFile("video.mov")), Content.Load<Texture2D>("back"), Content.Load<Effect>("MyShader"), graphics.GraphicsDevice, Const.SAVE_PATH_FILE);
+            ImageComputer = new Computers.ImageComputer(Content.Load<Effect>("MyShader"), Content.Load<Texture2D>("foto"), Content.Load<Texture2D>("back"), Graphics.GraphicsDevice, Const.SAVE_PATH_FILE);
+            //ImageComputer.SetEffects(0,MainTexture: Content.Load<Texture2D>("foto"));
 
+            //videoComputer = new Computers.VideoComputer(new VideoCapture(Setup.GetContentFile("video.mov")), Content.Load<Texture2D>("back"), Content.Load<Effect>("MyShader"), graphics.GraphicsDevice, Const.SAVE_PATH_FILE);
+            //videoComputer.AvgPhotoVecBitMap(Content.Load<Texture2D>("back"));
             //imageComputer = new Computers.ImageComputer(Content.Load<Effect>("MyShader"), Content.Load<Texture2D>("foto"), Content.Load<Texture2D>("back"), graphics.GraphicsDevice, Const.SAVE_PATH_FILE);
             //var sda = Content.Load<Video>("video");
             //videoComputer = new Computers.VideoComputer(Content.Load<Video>("video"), Content.Load<Effect>("MyShader"), graphics.GraphicsDevice, Const.SAVE_PATH_FILE);
@@ -73,7 +76,7 @@ namespace KZPC1
 
         protected override void Update(GameTime gameTime)
         {
-            state = Keyboard.GetState();
+            State = Keyboard.GetState();
             // TODO: Add your update logic here
             //if (state.IsKeyDown(Keys.Right) && !previousState.IsKeyDown(Keys.Right))
             //{
@@ -98,49 +101,55 @@ namespace KZPC1
             //    videoComputer.SaveTextures();
             //    Console.WriteLine("save");
             //}
-            if (state.IsKeyDown(Keys.NumPad1) && !previousState.IsKeyDown(Keys.NumPad1))
+            if (State.IsKeyDown(Keys.NumPad1) && !PreviousState.IsKeyDown(Keys.NumPad1))
             {
-                videoComputer.maskUseNumber = 1;
-                Console.WriteLine("Next img");
+                //videoComputer.maskUseNumber = 1;
+                ImageComputer.MaskUseNumber = 1;
+                Console.WriteLine("Next mask 1");
             }
-            if (state.IsKeyDown(Keys.NumPad2) && !previousState.IsKeyDown(Keys.NumPad2))
+            if (State.IsKeyDown(Keys.NumPad2) && !PreviousState.IsKeyDown(Keys.NumPad2))
             {
-                videoComputer.maskUseNumber = 2;
-                Console.WriteLine("Next img");
+                //videoComputer.maskUseNumber = 2;
+                ImageComputer.MaskUseNumber = 2;
+                Console.WriteLine("Next mask 2");
             }
-            if (state.IsKeyDown(Keys.NumPad3) && !previousState.IsKeyDown(Keys.NumPad3))
+            if (State.IsKeyDown(Keys.NumPad3) && !PreviousState.IsKeyDown(Keys.NumPad3))
             {
-                videoComputer.maskUseNumber = 3;
-                Console.WriteLine("Next img");
+                //videoComputer.maskUseNumber = 3;
+                ImageComputer.MaskUseNumber = 3;
+                Console.WriteLine("Next mask 3");
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D) && !previousState.IsKeyDown(Keys.D))
-            {
+            //if (Keyboard.GetState().IsKeyDown(Keys.D) && !previousState.IsKeyDown(Keys.D))
+            //{
 
-                play = !play;
-                Console.WriteLine("play");
-            }
+            //    play = !play;
+            //    Console.WriteLine("play");
+            //}
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += OnResize;
-            previousState = state;
+            PreviousState = State;
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            graphics.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.LightGray);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            Graphics.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.LightGray);
             if (!play)
             {
-                videoComputer.PlayVideo(spriteBatch, windowSize);
+                ImageComputer.DrawFinalMain(SpriteBatch, WindowSize);
             }
 
-            // TODO: Add your drawing code here
+            stopwatch.Stop();
+            Console.WriteLine("Time: " + stopwatch.ElapsedMilliseconds);
             base.Draw(gameTime);
         }
         public void OnResize(Object sender, EventArgs e)
         {
-            windowSize = Window.ClientBounds;
-            windowSize.X = 0;
-            windowSize.Y = 0;
+            WindowSize = Window.ClientBounds;
+            WindowSize.X = 0;
+            WindowSize.Y = 0;
             //Console.WriteLine("Resize on " + windowSize.ToString());
         }
     }
